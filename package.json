@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/rajeshgutta/lucy/issues"
   },
-  "homepage": "https://github.com/rajeshgutta/lucy#readme"
+  "homepage": "https://github.com/rajeshgutta/lucy#readme",
+  "dependencies": {
+    "compromise": "^11.12.3"
+  }
 }
