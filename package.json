@@ -1,0 +1,19 @@
+{
+  "name": "lucy",
+  "version": "1.0.0",
+  "description": "Power Assistant",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rajeshgutta/lucy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rajeshgutta/lucy/issues"
+  },
+  "homepage": "https://github.com/rajeshgutta/lucy#readme"
+}
