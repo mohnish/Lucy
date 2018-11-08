@@ -5,7 +5,7 @@ const findVerbs = (input) => {
   return nlp(input).verbs().out('text').split(" ");
 }
 
-//returns all labels hash for all queried
+//returns all captured groups hash with tags
 const withTags = (input, query) => {
   let raw = nlp(input).match(query).out('tags');
   let result = {};

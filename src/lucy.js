@@ -9,3 +9,121 @@ c,e){var g=d(a,c,e),f;c={};var l=0,k=!1;for(f=0;f<g.length;++f)g[f].seq&&(l=Math
 escape:"esc",plus:"+",mod:/Mac|iPod|iPhone|iPad/.test(navigator.platform)?"meta":"ctrl"},n;for(h=1;20>h;++h)m[111+h]="f"+h;for(h=0;9>=h;++h)m[h+96]=h.toString();e.prototype.bind=function(a,b,d){a=a instanceof Array?a:[a];this._bindMultiple.call(this,a,b,d);return this};e.prototype.unbind=function(a,b){return this.bind.call(this,a,function(){},b)};e.prototype.trigger=function(a,b){if(this._directMap[a+":"+b])this._directMap[a+":"+b]({},a);return this};e.prototype.reset=function(){this._callbacks={};
 this._directMap={};return this};e.prototype.stopCallback=function(a,b){return-1<(" "+b.className+" ").indexOf(" mousetrap ")||C(b,this.target)?!1:"INPUT"==b.tagName||"SELECT"==b.tagName||"TEXTAREA"==b.tagName||b.isContentEditable};e.prototype.handleKey=function(){return this._handleKey.apply(this,arguments)};e.addKeycodes=function(a){for(var b in a)a.hasOwnProperty(b)&&(m[b]=a[b]);n=null};e.init=function(){var a=e(t),b;for(b in a)"_"!==b.charAt(0)&&(e[b]=function(b){return function(){return a[b].apply(a,
 arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exports&&(module.exports=e);"function"===typeof define&&define.amd&&define(function(){return e})}})("undefined"!==typeof window?window:null,"undefined"!==typeof window?document:null);
+
+window.onload = function() {
+  // By default, the bar is hidden
+  const powerBar = document.querySelector('#lucy-power-bar');
+  const powerBarInput = powerBar.querySelector('input');
+  var isOpen = false;
+  var lucy = new Lucy();
+
+  function hide() {
+    isOpen = false;
+    lucy.stop();
+  	powerBar.classList.add('hide');
+  }
+
+  async function open() {
+    if (isOpen) return;
+
+    isOpen = true;
+    powerBar.classList.remove('hide');
+    var transcript = await lucy.listen();
+    set(transcript);
+  }
+
+  function clear() {
+    powerBarInput.value = '';
+  }
+
+  function get() {
+    return powerBarInput.value;
+  }
+
+  function set(val) {
+    powerBarInput.value = val;
+  }
+
+  Mousetrap.bind('shift+l', async function(e) {
+  	e.preventDefault();
+
+    clear();
+    open();
+
+    powerBarInput.focus();
+  });
+
+  document.onkeydown = function(e) {
+    var key = (e) ? e.which : window.event.keyCode;
+    const command = get();
+
+    // 13 will handle enter and 27 will handle esc
+    if((key === 13 && command.length > 0) || key === 27) {
+      hide();
+    }
+  };
+};
+
+// Speaking Module
+class Lucy {
+  constructor() {
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+    var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
+    var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+    var speechRecognitionList = new SpeechGrammarList();
+
+    this.recognition = new SpeechRecognition();
+    this.recognition.grammars = speechRecognitionList;
+    this.recognition.continuous = false;
+    this.recognition.lang = 'en-US';
+    this.recognition.interimResults = false;
+    this.recognition.maxAlternatives = 1;
+
+    this.recognition.onspeechend = () => { this.recognition.stop(); };
+
+    this.result = '';
+  }
+
+  start() {
+    this.recognition.start();
+  }
+
+  stop() {
+    this.recognition.stop();
+  }
+
+  handleListen(e) {
+    var transcript = '';
+
+    if (typeof(event.results) == 'undefined') {
+      this.recognition.onend = null;
+      this.recognition.stop();
+      return;
+    }
+
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+      transcript += event.results[i][0].transcript;
+    }
+
+    this.result = transcript;
+  }
+
+  transcript() {
+    return this.result;
+  }
+
+  async listen() {
+    var self = this;
+
+    this.start();
+
+    const promise = new Promise((resolve, reject) => {
+      self.recognition.onresult = (e) => {
+        self.handleListen(e);
+        resolve(self.transcript());
+      };
+    });
+
+    return promise;
+  }
+}
