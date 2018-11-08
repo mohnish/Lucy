@@ -1,20 +1,30 @@
 window.onload = function() {
-	document.getElementById("lucy-power-bar").style.display = 'none';	 
+	// By default, the bar is hidden
+	const powerBar = document.querySelector('#lucy-power-bar');
 
-  function close() {
-  	var powerbar = document.getElementById('lucy-power-bar');
-  	powerbar.style.display = 'none';
+  function hide() {
+  	powerBar.classList.add('hide');
+  }
+
+	function open() {
+  	powerBar.classList.remove('hide');
+  }
+
+	function toggle() {
+  	powerBar.classList.toggle('hide');
   }
 
   function get() {
-  	var input = document.getElementById('lucy-power-bar-input');
+  	var input = powerBar.querySelector('input');
   	return input.value;
   }
 
   Mousetrap.bind('shift+l', function() {
   	console.log('key shift l');
-    document.getElementById("lucy-power-bar").style.display = '';
-  	var input = document.getElementById("lucy-power-bar-input");
+
+    toggle();
+
+		var input = powerBar.querySelector('input');
 
   	input.focus();
   	input.value = '';
@@ -22,15 +32,15 @@ window.onload = function() {
   });
 
   document.onkeydown = function(e) {
-    
+
     var key = (e) ? e.which : window.event.keyCode;
     console.log('key ', key);
     if(key == 13) {
     	const command = get();
 
-    	//pass to compromise and close
+    	//pass to compromise and hide
     	if (command.length > 0) {
-    		close();
+    		hide();
     	}
     }
   };

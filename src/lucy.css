@@ -27,6 +27,6 @@
   background: rgba(0, 0, 0, 0.4);
 }
 
-#lucy-power-bar.close {
+#lucy-power-bar.hide {
   display: none;
 }
