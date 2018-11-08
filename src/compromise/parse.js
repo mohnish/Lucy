@@ -1,15 +1,30 @@
-import nlp from 'compromise';
+// import nlp from 'compromise';
 
-export const findVerbs = (input) => {
+const findVerbs = (input) => {
   //there's probably a better way to do this, also need to strip punctuation
   return nlp(input).verbs().out('text').split(" ");
 }
 
-//returns all possible labels hash
-export const withTags = (input) => {
-  return nlp(input).out('tags');
+//returns all labels hash for all queried
+const withTags = (input, query) => {
+  let raw = nlp(input).match(query).out('tags');
+  let result = {};
+  raw.map( (value) => {
+    result[value.text] = value.tags;
+  })
+  return result;
+}
+
+const allTags = (input, query) => {
+  let raw = nlp(input).out('tags');
+  let result = {};
+  raw.map( (value) => {
+    result[value.text] = value.tags;
+  })
+  return result;
 }
 
 //find if there is match
-export const match = (key, input) => {
-  return nlp(input).match(key).out('text');
+const matchInString = (key, input) => {
+  return nlp(input).match(key).out('tags');
+}
