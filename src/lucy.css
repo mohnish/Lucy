@@ -1,4 +1,4 @@
-#lucy-power-bar.open input[name="lucy-power-bar"] {
+#lucy-power-bar input[name="lucy-power-bar"] {
   width: 34.2rem;
   height: 4rem;
   padding: 2px 15px;
@@ -12,13 +12,13 @@
   border-width: 3px;
 }
 
-#lucy-power-bar.open input[name="lucy-power-bar"]:focus {
+#lucy-power-bar input[name="lucy-power-bar"]:focus {
   outline: none;
   border-color: #DF9EED;
   box-shadow: 0 0 10px #DF9EED;
 }
 
-#lucy-power-bar.open {
+#lucy-power-bar {
   position: fixed;
   top: 0;
   left: 0;
