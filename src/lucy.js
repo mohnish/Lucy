@@ -14,6 +14,7 @@ window.onload = function() {
   // By default, the bar is hidden
   const powerBar = document.querySelector('#lucy-power-bar');
   const powerBarInput = powerBar.querySelector('input');
+  var lucy = new Lucy();
 
   function hide() {
   	powerBar.classList.add('hide');
@@ -47,7 +48,6 @@ window.onload = function() {
 
     powerBarInput.focus();
 
-    var lucy = new Lucy();
     var transcript = await lucy.listen();
 
     set(transcript);
@@ -59,6 +59,7 @@ window.onload = function() {
 
     // 13 will handle enter and 27 will handle esc
     if((key === 13 && command.length > 0) || key === 27) {
+      lucy.stop();
       hide();
     }
   };
