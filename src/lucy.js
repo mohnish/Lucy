@@ -54,3 +54,69 @@ window.onload = function() {
     }
   };
 };
+
+// Speaking Module
+class Lucy {
+  constructor() {
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+    var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
+    var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+    var speechRecognitionList = new SpeechGrammarList();
+
+    this.recognition = new SpeechRecognition();
+    this.recognition.grammars = speechRecognitionList;
+    this.recognition.continuous = false;
+    this.recognition.lang = 'en-US';
+    this.recognition.interimResults = false;
+    this.recognition.maxAlternatives = 1;
+
+    this.recognition.onspeechend = () => { this.recognition.stop(); };
+
+    this.result = '';
+  }
+
+  start() {
+    this.recognition.start();
+  }
+
+  stop() {
+    this.recognition.stop();
+  }
+
+  handleListen(e) {
+    var transcript = '';
+
+    if (typeof(event.results) == 'undefined') {
+      this.recognition.onend = null;
+      this.recognition.stop();
+      return;
+    }
+
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+      transcript += event.results[i][0].transcript;
+    }
+
+    this.result = transcript;
+  }
+
+  transcript() {
+    return this.result;
+  }
+
+  async listen() {
+    var self = this;
+    this.start();
+
+    var r = this.recognition;
+    var cb = this.handleListen;
+
+    const promise = new Promise((resolve, reject) => {
+      r.onresult = (e) => {
+        cb.call(self, e);
+        resolve(self.transcript());
+      };
+    });
+
+    return promise;
+  }
+}
