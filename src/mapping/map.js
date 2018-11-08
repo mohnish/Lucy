@@ -27,7 +27,7 @@ const mappingSample = {
 }
 
 const findActionVerbMap = (input, mapping) => {
-  const actions = nlp(input).verbs(0).out('array');
+  const actions = findVerbs(input);
 
   actions.forEach((verb) => {
     if (Object.keys(mapping).includes(verb)) {
