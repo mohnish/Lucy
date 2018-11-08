@@ -1,4 +1,4 @@
-import { withTags, allTags } from '~/src/compromise/parse';
+// import { withTags, allTags } from '~/src/compromise/parse';
 
 const sendEmail = (...params) => (console.log('Email', JSON.stringify(params)));
 const sendInvite = (...params) => (console.log('Invite', JSON.stringify(params)));
