@@ -1,16 +1,16 @@
 window.onload = function() {
-	// By default, the bar is hidden
-	const powerBar = document.querySelector('#lucy-power-bar');
+  // By default, the bar is hidden
+  const powerBar = document.querySelector('#lucy-power-bar');
 
   function hide() {
   	powerBar.classList.add('hide');
   }
 
-	function open() {
+  function open() {
   	powerBar.classList.remove('hide');
   }
 
-	function toggle() {
+  function toggle() {
   	powerBar.classList.toggle('hide');
   }
 
@@ -19,12 +19,13 @@ window.onload = function() {
   	return input.value;
   }
 
-  Mousetrap.bind('shift+l', function() {
+  Mousetrap.bind('shift+l', function(e) {
+  	e.preventDefault();
   	console.log('key shift l');
 
     toggle();
 
-		var input = powerBar.querySelector('input');
+  var input = powerBar.querySelector('input');
 
   	input.focus();
   	input.value = '';
