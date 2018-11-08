@@ -12,8 +12,7 @@ const string = "Send Email to Vijay";
 //mapping example
 const mappingSample = { 
   send: {
-    match: {
-      value: "email",
+    '#Email': {
       callback: sendEmail,
     },
     namedEntity: {
@@ -38,6 +37,21 @@ const findActionVerbMap = (input, mapping) => {
 };
 
 //recursively search for valid cb, consume keys, parse what's left for cb args
-const = findCallback(input, mapping, params) => {
-  //
+const = findCallback(input, mapping) => {
+  if (mapping === {}) {
+    //error invalid map
+  }
+  else if (mapping.keys === ['callback']) {
+    const parsedInput; //parse inpu with compromise calls
+    return mapping.callback.bind(null, parsedInput);
+  } else if (input && mapping) {
+    const match;//compromise call to match
+    if (match !== '') {
+      const regex = new RegExp(match);
+      const nextInput = input.replace(regex, ''); //strip what matched from input, I think there's a compromise way to do this
+      return findCallback(nextInput, nextMappings);
+    }
+  } else {
+    //error invalid map
+  }
 }
