@@ -1,5 +1,5 @@
 import nlp from 'compromise';
-import { findVerbs } from '~/src/compromise/parse';
+import { findVerbs, withTags } from '~/src/compromise/parse';
 
 //callback example
 const sendEmail = function(string) {
@@ -15,10 +15,10 @@ const mappingSample = {
     '#Email': {
       callback: sendEmail,
     },
-    namedEntity: {
+    'namedEntity': {
       callback: sendEmail,
     },
-    noun: {
+    'noun': {
       callback: sendEmail,
     },
     callback: "openCompose",
@@ -39,19 +39,32 @@ const findActionVerbMap = (input, mapping) => {
 //recursively search for valid cb, consume keys, parse what's left for cb args
 const = findCallback(input, mapping) => {
   if (mapping === {}) {
-    //error invalid map
+    return false;
   }
-  else if (Object.keys(mapping) === ['callback']) {
-    const parsedInput; //parse inpu with compromise calls
+
+  //FIXME I'm too tired to think about recursive algos, refactor tomorrow
+  if (Object.keys(mapping) === ['callback']) {
+    const parsedInput = withTags(input); //parse inpu with compromise tags
     return mapping.callback.bind(null, parsedInput);
-  } else if (input && mapping) {
-    const match;//compromise call to match
-    if (match !== '') {
-      const regex = new RegExp(match);
-      const nextInput = input.replace(regex, ''); //strip what matched from input, I think there's a compromise way to do this
-      return findCallback(nextInput, nextMappings);
-    }
-  } else {
-    //error invalid map
   }
+
+  if (input && mapping) {
+    //TODO: amortize
+    Object.keys(mapping).forEach( (key) => {
+      const match(key, input);//compromise call to match
+      if (match !== '') {
+        const regex = new RegExp(match);
+        const nextInput = input.replace(regex, ''); //strip what matched from input, I think there's a compromise way to do this
+        const next = findCallback(nextInput, mapping[key]);
+        if (next === false) {
+          if(Object.keys(mapping).includes('callback')) {
+            return mapping.callback.bind(null, parsedInput);
+          } else {
+            return false;
+          }
+        }
+      }
+    }
+  }
+  return false;
 }
