@@ -1,4 +1,4 @@
-// import { withTags, allTags } from '~/src/compromise/parse';
+import { withTags, allTags } from '~/src/compromise/parse';
 
 const sendEmail = (...params) => (console.log('Email', JSON.stringify(params)));
 const sendInvite = (...params) => (console.log('Invite', JSON.stringify(params)));
@@ -12,7 +12,8 @@ const sampleMapping = {
   'send? email #Conjunction? [(#Email|#Person)]': sendEmail,
   'send? invite #Conjunction? [(#Email|#Person)]': sendInvite,
   'call? [#PhoneNumber]': callPhone,
-  'call [#NamedEntiity]': callPhone,
+  'call [#FirstName] [#LastName]': callPhone,
+  'call [#Person]': callPhone,
   '(open|navigate|move) #Preposition? [*]': moveTo,
 }
 
