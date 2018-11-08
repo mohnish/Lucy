@@ -14,18 +14,22 @@ window.onload = function() {
   // By default, the bar is hidden
   const powerBar = document.querySelector('#lucy-power-bar');
   const powerBarInput = powerBar.querySelector('input');
+  var isOpen = false;
   var lucy = new Lucy();
 
   function hide() {
+    isOpen = false;
+    lucy.stop();
   	powerBar.classList.add('hide');
   }
 
-  function open() {
-  	powerBar.classList.remove('hide');
-  }
+  async function open() {
+    if (isOpen) return;
 
-  function toggle() {
-  	powerBar.classList.toggle('hide');
+    isOpen = true;
+    powerBar.classList.remove('hide');
+    var transcript = await lucy.listen();
+    set(transcript);
   }
 
   function clear() {
@@ -44,13 +48,9 @@ window.onload = function() {
   	e.preventDefault();
 
     clear();
-    toggle();
+    open();
 
     powerBarInput.focus();
-
-    var transcript = await lucy.listen();
-
-    set(transcript);
   });
 
   document.onkeydown = function(e) {
@@ -59,7 +59,6 @@ window.onload = function() {
 
     // 13 will handle enter and 27 will handle esc
     if((key === 13 && command.length > 0) || key === 27) {
-      lucy.stop();
       hide();
     }
   };
