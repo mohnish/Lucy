@@ -4,7 +4,9 @@
   "description": "Power Assistant",
   "main": "src/index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "npm test",
+  },
+}
   },
   "repository": {
     "type": "git",
