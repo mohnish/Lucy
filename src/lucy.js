@@ -92,7 +92,7 @@ class Lucy {
     this.recognition.stop();
   }
 
-  handleListen(e) {
+  handleListen(event) {
     var transcript = '';
 
     if (typeof(event.results) == 'undefined') {
