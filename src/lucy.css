@@ -1,0 +1,32 @@
+#lucy-power-bar input[name="lucy-power-bar"] {
+  width: 34.2rem;
+  height: 4rem;
+  padding: 2px 15px;
+  font-size: 2rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-image: linear-gradient(to right, #B861C6 0%,#FF8484 100%);
+  border-image-slice: 1;
+  border-width: 3px;
+}
+
+#lucy-power-bar input[name="lucy-power-bar"]:focus {
+  outline: none;
+  border-color: #DF9EED;
+  box-shadow: 0 0 10px #DF9EED;
+}
+
+#lucy-power-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+#lucy-power-bar.hide {
+  display: none;
+}
