@@ -35,13 +35,22 @@ window.onload = function() {
     return powerBarInput.value;
   }
 
-  Mousetrap.bind('shift+l', function(e) {
+  function set(val) {
+    powerBarInput.value = val;
+  }
+
+  Mousetrap.bind('shift+l', async function(e) {
   	e.preventDefault();
 
     clear();
     toggle();
 
     powerBarInput.focus();
+
+    var lucy = new Lucy();
+    var transcript = await lucy.listen();
+
+    set(transcript);
   });
 
   document.onkeydown = function(e) {
