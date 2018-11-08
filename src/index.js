@@ -25,20 +25,15 @@ window.onload = function() {
 
     var input = powerBar.querySelector('input');
   	input.focus();
-  	input.value = '';
   });
 
   document.onkeydown = function(e) {
-
     var key = (e) ? e.which : window.event.keyCode;
-    console.log('key ', key);
-    if(key == 13) {
-    	const command = get();
-
-    	//pass to compromise and hide
-    	if (command.length > 0) {
+    const command = get();
+    
+    // 13 will handle enter and 27 will handle esc
+    if((key === 13 && command.length > 0) || key == 27) {
     		hide();
-    	}
     }
   };
 };
