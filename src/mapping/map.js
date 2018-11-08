@@ -41,7 +41,7 @@ const = findCallback(input, mapping) => {
   if (mapping === {}) {
     //error invalid map
   }
-  else if (mapping.keys === ['callback']) {
+  else if (Object.keys(mapping) === ['callback']) {
     const parsedInput; //parse inpu with compromise calls
     return mapping.callback.bind(null, parsedInput);
   } else if (input && mapping) {
