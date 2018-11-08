@@ -21,15 +21,11 @@ window.onload = function() {
 
   Mousetrap.bind('shift+l', function(e) {
   	e.preventDefault();
-  	console.log('key shift l');
-
     toggle();
 
-  var input = powerBar.querySelector('input');
-
+    var input = powerBar.querySelector('input');
   	input.focus();
   	input.value = '';
-    console.log('key shift 2');
   });
 
   document.onkeydown = function(e) {
