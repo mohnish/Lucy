@@ -4,9 +4,7 @@
   "description": "Power Assistant",
   "main": "src/index.js",
   "scripts": {
-    "test": "npm test",
-  },
-}
+    "test": "npm test"
   },
   "repository": {
     "type": "git",
@@ -19,6 +17,7 @@
   },
   "homepage": "https://github.com/rajeshgutta/lucy#readme",
   "dependencies": {
-    "compromise": "^11.12.3"
+    "compromise": "^11.12.3",
+    "mousetrap": "^1.6.2"
   }
 }
