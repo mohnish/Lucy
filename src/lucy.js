@@ -114,14 +114,12 @@ class Lucy {
 
   async listen() {
     var self = this;
+
     this.start();
 
-    var r = this.recognition;
-    var cb = this.handleListen;
-
     const promise = new Promise((resolve, reject) => {
-      r.onresult = (e) => {
-        cb.call(self, e);
+      self.recognition.onresult = (e) => {
+        self.handleListen(e);
         resolve(self.transcript());
       };
     });
