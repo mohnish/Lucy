@@ -25,8 +25,7 @@ window.onload = function() {
 
     toggle();
 
-  var input = powerBar.querySelector('input');
-
+    var input = powerBar.querySelector('input');
   	input.focus();
   	input.value = '';
     console.log('key shift 2');
