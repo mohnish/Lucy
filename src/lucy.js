@@ -98,10 +98,13 @@ window.onload = function() {
     window.open(`https://www.google.com/search?q=${queryString}`);
   };
 
-  const callPhone = (...params) => {
+  const callPhone = async (...params) => {
     document.querySelector("#click-to-call").click();
     if (Object.keys(params[0])) {
-      document.querySelector(".dial-input").value = Object.keys(params[0]);
+      await sleep(600);
+      document.querySelector("custom-dial-input").value = Object.keys(params[0]);
+      await sleep(600);
+      document.querySelector("#click-to-call").click();
     }
   }
 
@@ -124,7 +127,7 @@ window.onload = function() {
     '[(MLM|mlm)]': moveTo,
     '[(Adobe|Marketo|Salesforce|Google)]': moveTo,
     '(open|navigate|move|go) #Conjunction? [*]': moveTo,
-    '(new|create|make|add) template (#Preposition?|#Conjenction?) subject? [*]': createTemplate,
+    '(new|create|make|add) (template|Template) [*]': createTemplate,
     '(new|create) * (google|Google) [*]': googleTo,
     'google [*]': googleQuery,
   }
