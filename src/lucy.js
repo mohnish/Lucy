@@ -21,9 +21,9 @@ window.onload = function() {
 
   // const sendEmail = (...params) => (console.log('Email', JSON.stringify(params)));
   const sendInvite = (...params) => (console.log('Invite', JSON.stringify(params)));
-  const callPhone = (...params) => (console.log('Phone', JSON.stringify(params)));
-  const createTask = (...params) => (console.log('Task', JSON.stringify(params)));
-  const baseUrl = window.location.origin;
+  //const callPhone = (...params) => (console.log('Phone', JSON.stringify(params)));
+  //const createTask = (...params) => (console.log('Task', JSON.stringify(params)));
+  const baseUrl = window.location.origin === "file://" ? "https://staging.toutapp.com" : window.location.origin;
 
   const moveTo = (...params) => {
     console.log("Move to called", JSON.stringify(params));
@@ -34,16 +34,24 @@ window.onload = function() {
       } else if (params[0].live && params[0].feed) {
         // console.log("Live feed recognized");
         window.open(`${baseUrl}/live`,"toutactivitypane","width=380,height=" + screen.height + ",screenX=0,left=0,screenY=0,top=0,status=0,menubar=0");
-      } else if (params[0].Diagnostics) {
+      } else if (params[0].gong || params[0].Gong) {
+        // console.log("Gong recognized");
+        let height ="1050";
+        let width="1680";
+        window.open(`${baseUrl}/components/gong`,"toutactivitypane","width="+ width + ",height=" + height + ",left=" + ((screen.height - height)/2).toString() +",top="+ ((screen.width - width)/2).toString() +",status=0,menubar=0");
+      } else if (params[0].Diagnostics || params[0].diagnostics) {
         // console.log("diag feed recognized");
         window.open(`${baseUrl}/next#settings/diagnostics`);
-      } else if (params[0].task) {
+      } else if (params[0].task || params[0].Task) {
         // console.log("diag feed recognized");
         window.open(`${baseUrl}/components/reminder?sourceOpener=liveFeed`);
+      } else if (params[0].mlm || params[0].MLM) {
+        window.open(`https://app-sjint.marketo.com/`);
+      } else {
+        window.open(`https://${Object.keys(params[0])[0]}.com`);
       }
     }
   };
-
 
   async function sendEmail(...params) {
     console.log("Move to called", JSON.stringify(params));
@@ -59,12 +67,26 @@ window.onload = function() {
     }
   };
 
+  const callPhone = (...params) => {
+    const number = Object.keys(params[0])[0];
+    console.log("Phone hookup call ", number);
+  }
+
   const createTemplate = async (...params) => {
     const url = `${baseUrl}/pitch_templates`;
+    const templateName = Object.keys(params[0]).join(" ");
     const templateParams = {
-    }
+      attachment_id: [],
+      pitch_template: {
+        bcc: "",
+        body: "--------------<br/>Sent from Lucy Assistant.",
+        category_id: 4580,
+        cc: "",
+        name: templateName,
+        subject: "",
+      }
+    };
     await request(url, templateParams, 'POST');
-    
   }
 
   const googleTo = (...params) => {
@@ -80,17 +102,26 @@ window.onload = function() {
     window.open(`https://www.google.com/search?q=${queryString}`);
   };
 
+  const ringGong = (...params) => {
+    const money = Object.keys(params[0])[0];
+    console.log('Ring Gong hookup', money);
+  }
+
   const sampleMapping = {
-    'send? email #Conjunction? [#FirstName] [#LastName]': sendEmail,
-    'send? email #Conjunction? [(#Email|#Person)]': sendEmail,
+    //'send? email #Conjunction? [#FirstName] [#LastName]': sendEmail,
+    '[gong]': moveTo,
+    'send? email #Conjunction? [#Email]': sendEmail,
     'send? [email]': moveTo,
     'send? invite #Conjunction? [(#Email|#Person)?]': sendInvite,
     'call? [#PhoneNumber]': callPhone,
-    'call ([#FirstName] [#LastName])': callPhone,
+    //'call ([#FirstName] [#LastName])': callPhone,
     'call [#Person]': callPhone,
     '[call]': moveTo,
     '[task]': moveTo,
-    '(open|navigate|move) #Preposition? [*]': moveTo,
+    '[(MLM|mlm)]': moveTo,
+    '[(Adobe|Marketo|Salesforce|Google)]': moveTo,
+    '(open|navigate|move|go) #Conjunction? [*]': moveTo,
+    '(new|create|make|add) template (#Preposition?|#Conjenction?) subject? [*]': createTemplate,
     '(new|create) * (google|Google) [*]': googleTo,
     'google [*]': googleQuery,
   }
