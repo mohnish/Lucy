@@ -68,11 +68,6 @@ window.onload = function() {
     }
   };
 
-  const callPhone = (...params) => {
-    const number = Object.keys(params[0])[0];
-    console.log("Phone hookup call ", number);
-  }
-
   const createTemplate = async (...params) => {
     const url = `${baseUrl}/pitch_templates`;
     const templateName = Object.keys(params[0]).join(" ");
@@ -103,6 +98,13 @@ window.onload = function() {
     window.open(`https://www.google.com/search?q=${queryString}`);
   };
 
+  const callPhone = (...params) => {
+    document.querySelector("#click-to-call").click();
+    if (Object.keys(params[0])) {
+      document.querySelector(".dial-input").value = Object.keys(params[0]);
+    }
+  }
+
   const ringGong = (...params) => {
     const money = Object.keys(params[0])[0];
     console.log('Ring Gong hookup', money);
@@ -116,8 +118,8 @@ window.onload = function() {
     'send? invite #Conjunction? [(#Email|#Person)?]': sendInvite,
     'call? [#PhoneNumber]': callPhone,
     //'call ([#FirstName] [#LastName])': callPhone,
-    'call [#Person]': callPhone,
-    '[call]': moveTo,
+    //'call [#Person]': callPhone,
+    'call': callPhone,
     '[task]': moveTo,
     '[(MLM|mlm)]': moveTo,
     '[(Adobe|Marketo|Salesforce|Google)]': moveTo,
