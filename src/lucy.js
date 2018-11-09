@@ -112,8 +112,7 @@ window.onload = function() {
   const callPhone = async (...params) => {
     document.querySelector("#click-to-call").click();
     if (Object.keys(params[0])) {
-      await sleep(600);
-      document.querySelector("custom-dial-input").value = Object.keys(params[0]);
+      document.querySelector(".custom-dial-input").value = Object.keys(params[0]);
       await sleep(600);
       document.querySelector("#click-to-call").click();
     }
