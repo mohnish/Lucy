@@ -10,10 +10,12 @@ const sampleMapping = {
   '[#verb] * task #Preposition [(email|call|inmail|custom)]': createTask,
   'send? email #Conjunction? [#FirstName] [#LastName]': sendEmail,
   'send? email #Conjunction? [(#Email|#Person)]': sendEmail,
-  'send? invite #Conjunction? [(#Email|#Person)]': sendInvite,
+  'send? [email]': moveTo,
+  'send? invite #Conjunction? [(#Email|#Person)?]': sendInvite,
   'call? [#PhoneNumber]': callPhone,
-  'call [#FirstName] [#LastName]': callPhone,
+  'call ([#FirstName] [#LastName])': callPhone,
   'call [#Person]': callPhone,
+  '[call]': moveTo,
   '(open|navigate|move) #Preposition? [*]': moveTo,
 }
 
