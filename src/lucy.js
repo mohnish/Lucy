@@ -98,7 +98,7 @@ window.onload = function() {
     window.open(`https://www.google.com/search?q=${queryString}`);
   };
 
-  const compose = (...params) => {
+  const compose = async (...params) => {
     document.querySelector("#nav-compose").click();
     if (Object.keys(params[0])) {
       await sleep(5000);
