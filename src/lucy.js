@@ -67,7 +67,7 @@ window.onload = function() {
     '[call]': moveTo,
     '[task]': moveTo,
     '(open|navigate|move) #Preposition? [*]': moveTo,
-    'new (google|Google) [*]': googleTo,
+    '(new|create) * (google|Google) [*]': googleTo,
     'google [*]': googleQuery,
   }
 
