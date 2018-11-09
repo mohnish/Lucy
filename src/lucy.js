@@ -60,9 +60,10 @@ window.onload = function() {
       if (params[1].send) {
         params = { "email_address": Object.keys(params[0]), "address_type": "email", "location": "Work", "service": "lucy", "service_entity_id": 123, "service_entity_type": "Lead" }
         url = `${baseUrl}/people/create`
-        const person = await request(url, params, 'POST');
-
+        const response = await request(url, params, 'POST');
+        const person = response.person;
         console.log("person", person);
+        window.open(`${baseUrl}/next#compose_email/person/${person.id}/address/${person.primary_address.id}`);
       }
     }
   };
@@ -178,8 +179,8 @@ window.onload = function() {
           console.log('triggered', xmlhttp.status);
           if (xmlhttp.readyState == XMLHttpRequest.DONE) {
              if (xmlhttp.status == 200) {
-                 console.log('success', xmlhttp.responseText);
-                 resolve(xmlhttp.responseText);
+                 console.log('success', JSON.parse(xmlhttp.responseText));
+                 resolve(JSON.parse(xmlhttp.responseText));
              }
              else {
                  reject();
