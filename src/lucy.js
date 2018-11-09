@@ -28,16 +28,22 @@ window.onload = function() {
     console.log("Move to called", JSON.stringify(params));
     if (Object.keys(params[0]).length !== 0) {
       if (params[0].Lucy) {
-        console.log("this is working i hdfjkdslk");
+        console.log("this is working");
         open();
       } else if (params[0].live && params[0].feed) {
-        console.log("Live feed recognized");
+        // console.log("Live feed recognized");
+        window.open("https://staging.toutapp.com/live","toutactivitypane","width=380,height=" + screen.height + ",screenX=0,left=0,screenY=0,top=0,status=0,menubar=0");
+      } else if (params[0].Diagnostics) {
+        // console.log("diag feed recognized");
+        window.open("https://staging.toutapp.com/next#settings/diagnostics");
+      } else if (params[0].task) {
+        // console.log("diag feed recognized");
+        window.open("https://staging.toutapp.com/components/reminder?sourceOpener=liveFeed");
       }
     }
   };
 
   const sampleMapping = {
-    '[#verb] * task #Preposition [(email|call|inmail|custom)]': createTask,
     'send? email #Conjunction? [#FirstName] [#LastName]': sendEmail,
     'send? email #Conjunction? [(#Email|#Person)]': sendEmail,
     'send? [email]': moveTo,
@@ -46,7 +52,8 @@ window.onload = function() {
     'call ([#FirstName] [#LastName])': callPhone,
     'call [#Person]': callPhone,
     '[call]': moveTo,
-    '(open|navigate|move) #Preposition? [*]': moveTo,
+    '[task]': moveTo,
+    '(open|navigate|move) #Preposition? [*]': moveTo, 
   }
 
   //returns all captured groups hash with tags
