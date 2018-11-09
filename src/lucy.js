@@ -98,6 +98,13 @@ window.onload = function() {
     window.open(`https://www.google.com/search?q=${queryString}`);
   };
 
+  const compose = (...params) => {
+    document.querySelector("#nav-compose").click();
+    if (Object.keys(params[0])) {
+      document.querySelector(".contact-autocomplete").value = Object.keys(params[0]);
+    }
+  }
+
   const callPhone = (...params) => {
     document.querySelector("#click-to-call").click();
     if (Object.keys(params[0])) {
@@ -113,7 +120,7 @@ window.onload = function() {
   const sampleMapping = {
     //'send? email #Conjunction? [#FirstName] [#LastName]': sendEmail,
     '[gong]': moveTo,
-    'send? email #Conjunction? [#Email]': sendEmail,
+    'send? email #Conjunction? [#Email]': compose,
     'send? [email]': moveTo,
     'send? invite #Conjunction? [(#Email|#Person)?]': sendInvite,
     'call? [#PhoneNumber]': callPhone,
