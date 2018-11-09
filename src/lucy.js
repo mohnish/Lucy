@@ -52,7 +52,7 @@ window.onload = function() {
         console.log("this is working");
         params = { "email_address": Object.keys(params[0]), "address_type": "email", "location": "Work", "service": "lucy", "service_entity_id": 123, "service_entity_type": "Lead" }
         url = `${baseUrl}/people/create`
-        const person = getPerson(url, params, 'POST');
+        const person = request(url, params, 'POST');
 
         console.log("person", person);
       }
@@ -126,7 +126,7 @@ window.onload = function() {
     return callback;
   }
 
-  function getPerson(url, params, type) {
+  function request(url, params, type) {
     var xmlhttp = new XMLHttpRequest();
 
     xmlhttp.onreadystatechange = function() {
