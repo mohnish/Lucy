@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/rajeshgutta/lucy#readme",
   "dependencies": {
+    "compromise": "^11.12.3",
     "mousetrap": "^1.6.2"
   }
 }
