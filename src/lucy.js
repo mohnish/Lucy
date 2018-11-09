@@ -19,10 +19,11 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
 
 window.onload = function() {
 
-  const sendEmail = (...params) => (console.log('Email', JSON.stringify(params)));
+  // const sendEmail = (...params) => (console.log('Email', JSON.stringify(params)));
   const sendInvite = (...params) => (console.log('Invite', JSON.stringify(params)));
   const callPhone = (...params) => (console.log('Phone', JSON.stringify(params)));
   const createTask = (...params) => (console.log('Task', JSON.stringify(params)));
+  const baseUrl = window.location.origin;
 
   const moveTo = (...params) => {
     console.log("Move to called", JSON.stringify(params));
@@ -32,13 +33,28 @@ window.onload = function() {
         open();
       } else if (params[0].live && params[0].feed) {
         // console.log("Live feed recognized");
-        window.open("https://staging.toutapp.com/live","toutactivitypane","width=380,height=" + screen.height + ",screenX=0,left=0,screenY=0,top=0,status=0,menubar=0");
+        window.open(`${baseUrl}/live`,"toutactivitypane","width=380,height=" + screen.height + ",screenX=0,left=0,screenY=0,top=0,status=0,menubar=0");
       } else if (params[0].Diagnostics) {
         // console.log("diag feed recognized");
-        window.open("https://staging.toutapp.com/next#settings/diagnostics");
+        window.open(`${baseUrl}/next#settings/diagnostics`);
       } else if (params[0].task) {
         // console.log("diag feed recognized");
-        window.open("https://staging.toutapp.com/components/reminder?sourceOpener=liveFeed");
+        window.open(`${baseUrl}/components/reminder?sourceOpener=liveFeed`);
+      }
+    }
+  };
+
+  const sendEmail = (...params) => {
+    console.log("Move to called", JSON.stringify(params));
+    if (Object.keys(params[0]).length !== 0) {
+      console.log("Object.keys(params[0]", Object.keys(params[0]));
+      if (params[1].send) {
+        console.log("this is working");
+        params = { "email_address": Object.keys(params[0]), "address_type": "email", "location": "Work", "service": "lucy", "service_entity_id": 123, "service_entity_type": "Lead" }
+        url = `${baseUrl}/people/create`
+        const person = getPerson(url, params, 'POST');
+
+        console.log("person", person);
       }
     }
   };
@@ -93,6 +109,41 @@ window.onload = function() {
     }
 
     return callback;
+  }
+
+  function getPerson(url, params, type) {
+    var xmlhttp = new XMLHttpRequest();
+
+    xmlhttp.onreadystatechange = function() {
+        console.log('triggered', xmlhttp.status);
+        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+           if (xmlhttp.status == 200) {
+               // document.getElementById("myDiv").innerHTML = xmlhttp.responseText;
+               console.log('success', xmlhttp);
+           }
+           else if (xmlhttp.status == 400) {
+              alert('There was an error 400');
+           }
+           else {
+               alert('something else other than 200 was returned');
+           }
+        }
+    };
+
+    xmlhttp.open(type, url, true);
+    xmlhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+    xmlhttp.setRequestHeader("X-CSRF-Token", getCsrfTokenFromDocument());
+    xmlhttp.send(JSON.stringify(params));
+  }
+
+  function getCsrfTokenFromDocument() {
+    let token = null;
+    if (document.querySelector('meta[name="csrf-token"]')) {
+      token = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute('content');
+    }
+    return token;
   }
 
   // By default, the bar is hidden
