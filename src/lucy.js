@@ -45,7 +45,7 @@ window.onload = function() {
 
   const googleTo = (...params) => {
     const term = Object.keys(params[0])[0];
-    const valid = ["sheets", "sheet", "docs", "doc", "document", "form", "forms", "spreadsheet", "site", "sites", "website", "slides", "deck", "presentation"].includes(term);
+    const valid = ["sheets", "sheet", "docs", "doc", "document", "form", "forms", "spreadsheet", "site", "sites", "website", "slides", "deck", "presentation"].includes(term.toLowerCase());
     if (valid) {
       window.open(`https://${term}.new`);
     }
