@@ -44,7 +44,7 @@ window.onload = function() {
     }
   };
 
-  const sendEmail = (...params) => {
+  const sendEmail = async (...params) => {
     console.log("Move to called", JSON.stringify(params));
     if (Object.keys(params[0]).length !== 0) {
       console.log("Object.keys(params[0]", Object.keys(params[0]));
@@ -52,12 +52,20 @@ window.onload = function() {
         console.log("this is working");
         params = { "email_address": Object.keys(params[0]), "address_type": "email", "location": "Work", "service": "lucy", "service_entity_id": 123, "service_entity_type": "Lead" }
         url = `${baseUrl}/people/create`
-        const person = request(url, params, 'POST');
+        const person = await request(url, params, 'POST');
 
         console.log("person", person);
       }
     }
   };
+
+  const createTemplate = async (...params) => {
+    const url = `${baseUrl}/pitch_templates`;
+    const templateParams = {
+    }
+    await request(url, templateParams, 'POST');
+    
+  }
 
   const googleTo = (...params) => {
     const term = Object.keys(params[0])[0];
