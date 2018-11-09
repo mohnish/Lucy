@@ -6,8 +6,8 @@ Power Bar and also by offering helpful shortcuts
 ## Features
 
 * Speech recognition
-* Natural Language Processing support
-* Hotkey support
+* Natural Language Processing
+* Hotkeys
 
 ## Installation
 
