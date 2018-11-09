@@ -101,10 +101,7 @@ window.onload = function() {
   const compose = (...params) => {
     document.querySelector("#nav-compose").click();
     if (Object.keys(params[0])) {
-      document.querySelector(".contact-autocomplete").onload = function () {
-        console.log('email ***1****');
-        setTimeout(setEmailAddress(Object.keys(params[0])), 1000);
-      }      
+      setTimeout(setEmailAddress(Object.keys(params[0])), 10000);   
     }
   }
 
