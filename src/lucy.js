@@ -136,7 +136,7 @@ window.onload = function() {
     'new? benefits': openBenefits,
     '[gong]': moveTo,
     'send? email #Conjunction? [#Email]': sendEmail,
-    'send? [email]': sendEmail,
+    'send? [email]': moveTo,
     'send? invite #Conjunction? [(#Email|#Person)?]': sendInvite,
     'call? [#PhoneNumber]': callPhone,
     //'call ([#FirstName] [#LastName])': callPhone,
