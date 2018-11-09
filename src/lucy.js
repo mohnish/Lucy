@@ -44,15 +44,14 @@ window.onload = function() {
     }
   };
 
-  const sendEmail = (...params) => {
+  async function sendEmail(...params) {
     console.log("Move to called", JSON.stringify(params));
     if (Object.keys(params[0]).length !== 0) {
       console.log("Object.keys(params[0]", Object.keys(params[0]));
       if (params[1].send) {
-        console.log("this is working");
         params = { "email_address": Object.keys(params[0]), "address_type": "email", "location": "Work", "service": "lucy", "service_entity_id": 123, "service_entity_type": "Lead" }
         url = `${baseUrl}/people/create`
-        const person = request(url, params, 'POST');
+        const person = await request(url, params, 'POST');
 
         console.log("person", person);
       }
@@ -127,28 +126,27 @@ window.onload = function() {
   }
 
   function request(url, params, type) {
-    var xmlhttp = new XMLHttpRequest();
+    return new Promise((resolve, reject) => {
+      var xmlhttp = new XMLHttpRequest();
 
-    xmlhttp.onreadystatechange = function() {
-        console.log('triggered', xmlhttp.status);
-        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-           if (xmlhttp.status == 200) {
-               // document.getElementById("myDiv").innerHTML = xmlhttp.responseText;
-               console.log('success', xmlhttp);
-           }
-           else if (xmlhttp.status == 400) {
-              alert('There was an error 400');
-           }
-           else {
-               alert('something else other than 200 was returned');
-           }
-        }
-    };
+      xmlhttp.open(type, url, true);
+      xmlhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+      xmlhttp.setRequestHeader("X-CSRF-Token", getCsrfTokenFromDocument());
+      xmlhttp.send(JSON.stringify(params));
 
-    xmlhttp.open(type, url, true);
-    xmlhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
-    xmlhttp.setRequestHeader("X-CSRF-Token", getCsrfTokenFromDocument());
-    xmlhttp.send(JSON.stringify(params));
+      xmlhttp.onreadystatechange = function() {
+          console.log('triggered', xmlhttp.status);
+          if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+             if (xmlhttp.status == 200) {
+                 console.log('success', xmlhttp.responseText);
+                 resolve(xmlhttp.responseText);
+             }
+             else {
+                 reject();
+             }
+          }
+      };      
+    });
   }
 
   function getCsrfTokenFromDocument() {
