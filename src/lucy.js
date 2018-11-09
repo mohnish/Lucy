@@ -31,6 +31,8 @@ window.onload = function() {
       if (params[0].Lucy) {
         console.log("this is working");
         open();
+      } else if (params[0].email) {
+        document.querySelector("#nav-compose").click();
       } else if (params[0].live && params[0].feed) {
         // console.log("Live feed recognized");
         window.open(`${baseUrl}/live`,"toutactivitypane","width=380,height=" + screen.height + ",screenX=0,left=0,screenY=0,top=0,status=0,menubar=0");
@@ -115,8 +117,10 @@ window.onload = function() {
   const callPhone = async (...params) => {
     console.log(Object.keys(params[0]));
     document.querySelector("#click-to-call").click();
+
     if (Object.keys(params[0])) {
       console.log(Object.keys(params[0])[0]);
+      await sleep(600);
       document.querySelector(".custom-dial-input").value = Object.keys(params[0])[0];
       await sleep(600);
       console.log("post sleep");
@@ -137,7 +141,7 @@ window.onload = function() {
     //'send? email #Conjunction? [#FirstName] [#LastName]': sendEmail,
     'new? benefits': openBenefits,
     '[gong]': moveTo,
-    'send? email #Conjunction? [#Email]': compose,
+    'send? email #Conjunction? [#Email]': sendEmail,
     'send? [email]': moveTo,
     'send? invite #Conjunction? [(#Email|#Person)?]': sendInvite,
     'call? [#PhoneNumber]': callPhone,
