@@ -107,10 +107,13 @@ window.onload = function() {
   }
 
   const callPhone = async (...params) => {
+    console.log(Object.keys(params[0]));
     document.querySelector("#click-to-call").click();
     if (Object.keys(params[0])) {
+      console.log(Object.keys(params[0])[0]);
       document.querySelector(".custom-dial-input").value = Object.keys(params[0])[0];
       await sleep(600);
+      console.log("post sleep");
       document.querySelector("#click-to-call").click();
     }
   }
@@ -120,8 +123,13 @@ window.onload = function() {
     console.log('Ring Gong hookup', money);
   }
 
+  const openBenefits = (...params) => {
+    window.open("https://benefits.adobe.com/");
+  }
+
   const sampleMapping = {
     //'send? email #Conjunction? [#FirstName] [#LastName]': sendEmail,
+    'new? benefits': openBenefits,
     '[gong]': moveTo,
     'send? email #Conjunction? [#Email]': compose,
     'send? [email]': moveTo,
