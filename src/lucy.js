@@ -43,6 +43,19 @@ window.onload = function() {
     }
   };
 
+  const googleTo = (...params) => {
+    const term = Object.keys(params[0])[0];
+    const valid = ["sheets", "sheet", "docs", "doc", "document", "form", "forms", "spreadsheet", "site", "sites", "website", "slides", "deck", "presentation"].includes(term);
+    if (valid) {
+      window.open(`https://${term}.new`);
+    }
+  };
+
+  const googleQuery = (...params) => {
+    const queryString = Object.keys(params[0]).map( (el) => (encodeURIComponent(el))).join('+');
+    window.open(`https://www.google.com/search?q=${queryString}`);
+  };
+
   const sampleMapping = {
     'send? email #Conjunction? [#FirstName] [#LastName]': sendEmail,
     'send? email #Conjunction? [(#Email|#Person)]': sendEmail,
@@ -53,7 +66,9 @@ window.onload = function() {
     'call [#Person]': callPhone,
     '[call]': moveTo,
     '[task]': moveTo,
-    '(open|navigate|move) #Preposition? [*]': moveTo, 
+    '(open|navigate|move) #Preposition? [*]': moveTo,
+    'new (google|Google) [*]': googleTo,
+    'google [*]': googleQuery,
   }
 
   //returns all captured groups hash with tags
