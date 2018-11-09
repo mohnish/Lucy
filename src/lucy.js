@@ -98,12 +98,18 @@ window.onload = function() {
     window.open(`https://www.google.com/search?q=${queryString}`);
   };
 
-  const compose = async (...params) => {
+  const compose = (...params) => {
     document.querySelector("#nav-compose").click();
     if (Object.keys(params[0])) {
-      await sleep(5000);
-      document.querySelector(".contact-autocomplete").value = Object.keys(params[0]);
+      document.querySelector(".contact-autocomplete").onload = function () {
+        setTimeout(setEmailAddress(Object.keys(params[0])), 1000);
+      }      
     }
+  }
+
+  const setEmailAddress = (email) => {
+    console.log('email *******', email);
+    document.querySelector(".contact-autocomplete").value = email;
   }
 
   const callPhone = async (...params) => {
