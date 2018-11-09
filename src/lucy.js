@@ -106,6 +106,7 @@ window.onload = function() {
   }
 
   const setEmailAddress = (email) => {
+    console.log('email *******', email);
     document.querySelector(".contact-autocomplete").value = email;
   }
 
