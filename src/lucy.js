@@ -101,7 +101,7 @@ window.onload = function() {
   const compose = (...params) => {
     document.querySelector("#nav-compose").click();
     if (Object.keys(params[0])) {
-      document.querySelector(".contact-autocomplete").value = Object.keys(params[0]);
+      document.querySelector("contact-autocomplete").value = Object.keys(params[0]);
     }
   }
 
