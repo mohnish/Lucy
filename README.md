@@ -28,3 +28,7 @@ To use the speech module,
 const lucy = new Lucy();
 console.log(await lucy.listen());
 ```
+
+## Skills
+
+Lucy can be taught new skills and these can be shared. A skill is a simple string to callback mapping. This enables Lucy to learn new skills by means of keywords.
